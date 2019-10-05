@@ -91,7 +91,7 @@ pipeline {
         custom['part']        = 'jenkins'
         custom['version']     = "1.0"
 
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: target])
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
       }
 
 
@@ -108,7 +108,7 @@ pipeline {
         custom['part']        = 'jenkins'
         custom['version']     = "1.0"
 
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'jenkins'])
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
       }
 
 
@@ -125,7 +125,7 @@ pipeline {
         custom['part']        = 'jenkins'
         custom['version']     = "1.0"
 
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'jenkins'])
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
       }
 
 
@@ -142,7 +142,7 @@ pipeline {
         custom['part']        = 'jenkins'
         custom['version']     = "1.0"
 
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'jenkins'])
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
       }
     }
   }
