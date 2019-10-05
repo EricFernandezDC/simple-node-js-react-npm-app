@@ -59,7 +59,6 @@ pipeline {
         echo \'the file ".pidfile".\'
         set -x
         npm start &
-        sleep 1
         echo $! > .pidfile
         set +x
 
@@ -91,58 +90,7 @@ pipeline {
         custom['part']        = 'jenkins'
         custom['version']     = "1.0"
 
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
-      }
-
-
-    }
-
-    failure {
-      script {
-        currentBuild.result = "FAILURE"
-
-        /* Custom data map for InfluxDB */
-        def custom = [:]
-        custom['branch']      = "master"
-        custom['environment'] = "prod"
-        custom['part']        = 'jenkins'
-        custom['version']     = "1.0"
-
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
-      }
-
-
-    }
-
-    unstable {
-      script {
-        currentBuild.result = "FAILURE"
-
-        /* Custom data map for InfluxDB */
-        def custom = [:]
-        custom['branch']      = "master"
-        custom['environment'] = "prod"
-        custom['part']        = 'jenkins'
-        custom['version']     = "1.0"
-
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
-      }
-
-
-    }
-
-    aborted {
-      script {
-        currentBuild.result = "FAILURE"
-
-        /* Custom data map for InfluxDB */
-        def custom = [:]
-        custom['branch']      = "master"
-        custom['environment'] = "prod"
-        custom['part']        = 'jenkins'
-        custom['version']     = "1.0"
-
-        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'myTarget'])
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
       }
     }
   }
