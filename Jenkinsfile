@@ -59,6 +59,7 @@ pipeline {
         echo \'the file ".pidfile".\'
         set -x
         npm start &
+        sleep 1
         echo $! > .pidfile
         set +x
 
@@ -82,6 +83,51 @@ pipeline {
     success {
       script {
         currentBuild.result = "SUCCESS"
+
+        /* Custom data map for InfluxDB */
+        def custom = [:]
+        custom['branch']      = "master"
+        custom['environment'] = "prod"
+        custom['part']        = 'jenkins'
+        custom['version']     = "1.0"
+
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
+      }
+    }
+    
+    failure {
+      script {
+        currentBuild.result = "FAILURE"
+
+        /* Custom data map for InfluxDB */
+        def custom = [:]
+        custom['branch']      = "master"
+        custom['environment'] = "prod"
+        custom['part']        = 'jenkins'
+        custom['version']     = "1.0"
+
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
+      }
+    }
+    
+    unstable {
+      script {
+        currentBuild.result = "FAILURE"
+
+        /* Custom data map for InfluxDB */
+        def custom = [:]
+        custom['branch']      = "master"
+        custom['environment'] = "prod"
+        custom['part']        = 'jenkins'
+        custom['version']     = "1.0"
+
+        step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
+      }
+    }
+
+    aborted {
+      script {
+        currentBuild.result = "FAILURE"
 
         /* Custom data map for InfluxDB */
         def custom = [:]
