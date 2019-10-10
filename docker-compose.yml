@@ -1,0 +1,45 @@
+version: '1'
+services:
+  grafana:
+    image: "grafana/grafana"
+    ports:
+      - "6001:3000"
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_USERS_ALLOW_ORG_CREATE=false
+    volumes:
+      - "grafana:/var/lib/grafana"
+    networks:
+      - labnet
+
+  jenkins:
+    image: "jenkins/jenkins"
+    ports:
+      - "6002:8080"
+    volumes:
+      - "jenkins:/var/jenkins_home"
+    networks:
+      - labnet
+
+  influxdb:
+    image: "influxdb"
+    ports:
+      - "6003:8086"
+    environment:
+      - INFLUXDB_DB=jenkins
+      - INFLUXDB_USER=admin
+      - INFLUXDB_USER_PASSWORD=admin
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - "influxdb:/var/lib/influxdb"
+    networks:
+      - labnet
+
+networks:
+  labnet:
+
+volumes:
+  grafana:
+  influxdb:
+  jenkins:
