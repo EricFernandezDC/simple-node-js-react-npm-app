@@ -1,8 +1,8 @@
 pipeline {
   agent {
     docker {
-      image 'node:6-alpine'
       args '-p 3000:3000'
+      image 'node'
     }
 
   }
@@ -79,6 +79,9 @@ pipeline {
       }
     }
   }
+  environment {
+    CI = 'true'
+  }
   post {
     success {
       script {
@@ -93,8 +96,10 @@ pipeline {
 
         step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
       }
+
+
     }
-    
+
     failure {
       script {
         currentBuild.result = "FAILURE"
@@ -108,8 +113,10 @@ pipeline {
 
         step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
       }
+
+
     }
-    
+
     unstable {
       script {
         currentBuild.result = "FAILURE"
@@ -123,6 +130,8 @@ pipeline {
 
         step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
       }
+
+
     }
 
     aborted {
@@ -138,9 +147,9 @@ pipeline {
 
         step([$class: 'InfluxDbPublisher', customData: custom, selectedTarget: 'Local InfluxDB'])
       }
+
+
     }
-  }
-  environment {
-    CI = 'true'
+
   }
 }
