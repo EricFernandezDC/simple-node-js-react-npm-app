@@ -21,10 +21,5 @@ steps:
   displayName: 'Build'
 
 - script: |
-    npm test -a
-  displayName: 'Test'
-
-- script: |
-    npm run build
     npm start
   displayName: 'Deploy'
