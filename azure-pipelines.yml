@@ -21,7 +21,7 @@ steps:
   displayName: 'Build'
 
 - script: |
-    npm test
+    npm test -a
   displayName: 'Test'
 
 - script: |
